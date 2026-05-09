@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: teen-mental-analyser
+    runtime: python
+    buildCommand: "curl -LsSf https://astral.sh/uv/install.sh | sh && $HOME/.local/bin/uv pip install --system -r requirements.txt"
+    startCommand: "uvicorn api_server:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.11.0

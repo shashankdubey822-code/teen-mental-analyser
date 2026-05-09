@@ -1,0 +1,10 @@
+Feature,Outliers_Clipped,Lower_Fence,Upper_Fence
+age,0,8.0,24.0
+daily_social_media_hours,0,-2.45,11.55
+sleep_hours,0,1.6,11.2
+screen_time_before_sleep,0,-0.85,4.35
+academic_performance,0,1.03,4.95
+physical_activity,0,-1.0,3.0
+stress_level,0,-4.5,15.5
+anxiety_level,0,-4.5,15.5
+addiction_level,0,-4.5,15.5

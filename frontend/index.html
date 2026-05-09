@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindGuard AI — Teen Mental Health Analytics</title>
+    <meta name="description" content="AI-powered teen mental health analytics dashboard with real-time risk prediction and Doctor AI assistant.">
+    <link rel="stylesheet" href="/frontend/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h1><i class="fa-solid fa-brain"></i> MindGuard AI</h1>
+            <span>Mental Health Analytics</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <button class="nav-link active" data-section="overview">
+                <i class="fa-solid fa-border-all"></i> Overview
+            </button>
+            <button class="nav-link" data-section="eda">
+                <i class="fa-solid fa-chart-pie"></i> EDA & Insights
+            </button>
+            <button class="nav-link" data-section="model">
+                <i class="fa-solid fa-microchip"></i> Model Performance
+            </button>
+            <button class="nav-link" data-section="predict">
+                <i class="fa-solid fa-stethoscope"></i> Risk Predictor
+            </button>
+            <button class="nav-link" data-section="awareness">
+                <i class="fa-solid fa-heart-pulse"></i> Awareness Hub
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="system-status">
+                <div class="pulse-dot"></div>
+                <span>Pipeline Active — v1.0</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <h2 id="pageTitle">Dashboard Overview</h2>
+                <p id="pageSubtitle">Real-time teen mental health analytics</p>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" title="Notifications"><i class="fa-regular fa-bell"></i><span class="badge-dot"></span></button>
+                <img src="https://ui-avatars.com/api/?name=Dr+A&background=06b6d4&color=fff&size=36" alt="User" class="user-avatar">
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- ═══ OVERVIEW SECTION ═══ -->
+            <div class="section-view active" id="sec-overview">
+                <!-- KPIs -->
+                <div class="kpi-strip">
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon-box cyan"><i class="fa-solid fa-database"></i></div>
+                        <div class="kpi-data">
+                            <h4>Total Samples</h4>
+                            <div class="kpi-value" id="kpiSamples">—</div>
+                            <div class="kpi-trend up"><i class="fa-solid fa-arrow-up"></i> Dataset loaded</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon-box red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="kpi-data">
+                            <h4>Depression Cases</h4>
+                            <div class="kpi-value" id="kpiDepression">—</div>
+                            <div class="kpi-trend down"><i class="fa-solid fa-arrow-up"></i> Needs attention</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon-box purple"><i class="fa-solid fa-bullseye"></i></div>
+                        <div class="kpi-data">
+                            <h4>Model F1 Score</h4>
+                            <div class="kpi-value" id="kpiF1">—</div>
+                            <div class="kpi-trend up"><i class="fa-solid fa-check"></i> Production-ready</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card glass-card">
+                        <div class="kpi-icon-box green"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="kpi-data">
+                            <h4>Champion Model</h4>
+                            <div class="kpi-value" id="kpiModel" style="font-size:16px;">—</div>
+                            <div class="kpi-trend up"><i class="fa-solid fa-trophy"></i> Best performer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero: Trend + Feed -->
+                <div class="chart-row hero">
+                    <div class="glass-card">
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-chart-area"></i> Sleep Distribution by Depression Status</h3>
+                            <span class="card-badge live">LIVE DATA</span>
+                        </div>
+                        <div class="chart-body"><canvas id="sleepChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-bolt"></i> AI Insight Feed</h3>
+                            <span class="card-badge live">LIVE</span>
+                        </div>
+                        <div class="feed-list" id="insightFeed"></div>
+                    </div>
+                </div>
+
+                <!-- Awareness Banner -->
+                <div class="awareness-banner">
+                    <div class="awareness-icon">🧠</div>
+                    <div class="awareness-text">
+                        <h3>Mental Health Awareness</h3>
+                        <p>1 in 5 teens experience a mental health condition. Early detection and data-driven insights can help identify at-risk individuals before crisis points. This dashboard uses ML models trained on behavioral data to flag risk patterns.</p>
+                    </div>
+                </div>
+
+                <!-- 2-column charts -->
+                <div class="chart-row cols-2">
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-chart-pie"></i> Class Distribution</h3></div>
+                        <div class="chart-body"><canvas id="classChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-arrows-left-right"></i> Platform Usage by Depression</h3></div>
+                        <div class="chart-body"><canvas id="platformChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ EDA SECTION ═══ -->
+            <div class="section-view" id="sec-eda">
+                <div class="chart-row cols-2">
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-fire"></i> Correlation Heatmap</h3><span class="card-badge info">PYTHON</span></div>
+                        <div class="chart-body" style="height:380px;"><canvas id="corrChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-crosshairs"></i> Stress vs Anxiety Scatter</h3></div>
+                        <div class="chart-body"><canvas id="scatterChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="chart-row cols-2">
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-box"></i> Addiction Level Box Plot</h3></div>
+                        <div class="chart-body"><canvas id="addictionChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-mobile-screen"></i> Social Media Hours</h3></div>
+                        <div class="chart-body"><canvas id="socialMediaChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ MODEL SECTION ═══ -->
+            <div class="section-view" id="sec-model">
+                <div class="chart-row cols-2">
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-ranking-star"></i> Feature Importance (Champion)</h3></div>
+                        <div class="chart-body"><canvas id="featureChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-shuffle"></i> Permutation Importance</h3></div>
+                        <div class="chart-body"><canvas id="permChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="chart-row cols-2">
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-graduation-cap"></i> Learning Curve</h3></div>
+                        <div class="chart-body"><canvas id="learningChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-table-cells"></i> Confusion Matrix</h3></div>
+                        <div class="chart-body"><canvas id="confChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="chart-row cols-2">
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-wave-square"></i> ROC Curve</h3></div>
+                        <div class="chart-body"><canvas id="rocChart"></canvas></div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-head"><h3><i class="fa-solid fa-atom"></i> PCA Clusters</h3></div>
+                        <div class="chart-body"><canvas id="pcaChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ PREDICT SECTION ═══ -->
+            <div class="section-view" id="sec-predict">
+                <div class="chart-row cols-2">
+                    <div class="glass-card" style="padding:28px;">
+                        <h3 style="margin-bottom:20px;font-size:16px;"><i class="fa-solid fa-user-doctor" style="color:var(--primary);margin-right:8px;"></i>Patient Risk Assessment</h3>
+                        <form id="predictForm" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                            <label class="form-group"><span>Age</span><input type="number" name="age" value="16" min="10" max="25" required></label>
+                            <label class="form-group"><span>Gender</span><select name="gender"><option>Male</option><option>Female</option></select></label>
+                            <label class="form-group"><span>Social Media Hours</span><input type="number" name="social_media_hours" value="3" step="0.5" min="0" max="12"></label>
+                            <label class="form-group"><span>Platform</span><select name="platform_usage"><option>Instagram</option><option>TikTok</option><option>Both</option></select></label>
+                            <label class="form-group"><span>Sleep Hours</span><input type="number" name="sleep_hours" value="7" step="0.5" min="0" max="12"></label>
+                            <label class="form-group"><span>Screen Before Sleep</span><input type="number" name="screen_time_before_sleep" value="1" step="0.5" min="0" max="12"></label>
+                            <label class="form-group"><span>Academic GPA</span><input type="number" name="academic_performance" value="3.0" step="0.1" min="0" max="4"></label>
+                            <label class="form-group"><span>Physical Activity (hrs)</span><input type="number" name="physical_activity" value="1" step="0.5" min="0" max="12"></label>
+                            <label class="form-group"><span>Social Interaction</span><select name="social_interaction_level"><option>Low</option><option>Medium</option><option>High</option></select></label>
+                            <label class="form-group"><span>Stress (1-10)</span><input type="number" name="stress_level" value="5" min="1" max="10"></label>
+                            <label class="form-group"><span>Anxiety (1-10)</span><input type="number" name="anxiety_level" value="5" min="1" max="10"></label>
+                            <label class="form-group"><span>Addiction (1-10)</span><input type="number" name="addiction_level" value="5" min="1" max="10"></label>
+                            <button type="submit" class="predict-btn" style="grid-column:1/-1;"><i class="fa-solid fa-stethoscope"></i> Analyze Risk</button>
+                        </form>
+                    </div>
+                    <div class="glass-card" style="padding:28px;">
+                        <h3 style="margin-bottom:20px;font-size:16px;"><i class="fa-solid fa-chart-line" style="color:var(--primary);margin-right:8px;"></i>Risk Assessment Result</h3>
+                        <div id="predictResult" style="color:var(--text-secondary);font-size:14px;">
+                            <p>Fill in patient data and click <strong>Analyze Risk</strong> to get a prediction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ AWARENESS SECTION ═══ -->
+            <div class="section-view" id="sec-awareness">
+                <div class="awareness-banner">
+                    <div class="awareness-icon">💡</div>
+                    <div class="awareness-text">
+                        <h3>Understanding Teen Mental Health</h3>
+                        <p>Mental health is as important as physical health. Teens face unique challenges — academic pressure, social media influence, sleep disruption, and identity development. Our AI models analyze behavioral patterns to provide early intervention signals.</p>
+                    </div>
+                </div>
+                <div class="awareness-cards">
+                    <div class="glass-card awareness-tip">
+                        <span class="tip-icon">😴</span>
+                        <h4>Sleep Hygiene</h4>
+                        <p>Teens need 8-10 hours of sleep. Screen exposure before bed disrupts melatonin production. Our data shows sleep deficit is the #1 predictor of depression risk.</p>
+                    </div>
+                    <div class="glass-card awareness-tip">
+                        <span class="tip-icon">📱</span>
+                        <h4>Digital Wellbeing</h4>
+                        <p>Excessive social media (>3 hrs/day) correlates with 40% higher anxiety levels. Mindful usage and screen-time limits significantly reduce mental health risk.</p>
+                    </div>
+                    <div class="glass-card awareness-tip">
+                        <span class="tip-icon">🏃</span>
+                        <h4>Physical Activity</h4>
+                        <p>30+ minutes of daily exercise reduces depression risk by 25%. Movement releases endorphins and improves sleep quality — two key protective factors.</p>
+                    </div>
+                </div>
+                <div class="awareness-cards">
+                    <div class="glass-card awareness-tip">
+                        <span class="tip-icon">🗣️</span>
+                        <h4>Social Connection</h4>
+                        <p>Low social interaction strongly predicts mental health decline. Encourage face-to-face interactions, group activities, and open conversations with trusted adults.</p>
+                    </div>
+                    <div class="glass-card awareness-tip">
+                        <span class="tip-icon">📚</span>
+                        <h4>Academic Balance</h4>
+                        <p>Academic pressure is a key stress driver for teens. Healthy study habits, realistic goal-setting, and stress-management techniques are essential for balance.</p>
+                    </div>
+                    <div class="glass-card awareness-tip">
+                        <span class="tip-icon">🆘</span>
+                        <h4>When to Seek Help</h4>
+                        <p>If a teen shows persistent sadness, withdrawal, appetite changes, or declining performance for 2+ weeks, professional support is recommended. Early intervention saves lives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ─── DOCTOR AI CHAT ─── -->
+<div class="ai-chat-fab">
+    <button class="fab-btn" id="fabBtn" aria-label="Open AI Doctor"><i class="fa-solid fa-user-doctor"></i></button>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-top">
+            <div class="chat-top-left">
+                <div class="doctor-avatar">🩺</div>
+                <div class="chat-top-info">
+                    <h3>Dr. MindGuard AI</h3>
+                    <div class="online-badge"><span class="dot"></span> Online — Mental Health Only</div>
+                </div>
+            </div>
+            <button class="chat-close" id="chatClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="quick-actions">
+            <button class="quick-btn" data-msg="How can I improve my sleep?">😴 Sleep tips</button>
+            <button class="quick-btn" data-msg="How does social media affect mental health?">📱 Social media</button>
+            <button class="quick-btn" data-msg="What are signs of depression in teens?">🧠 Depression signs</button>
+            <button class="quick-btn" data-msg="How to manage exam stress?">📚 Exam stress</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-msg bot">
+                <div class="bubble">Hi there! 👋 I'm <strong>Dr. MindGuard</strong>, your mental health wellness assistant. I'm here to help you understand and improve mental wellbeing.<br><br>Ask me anything about sleep, stress, anxiety, social media habits, or teen mental health. I'll provide personalized, evidence-based guidance. 💚</div>
+                <span class="msg-time">Just now</span>
+            </div>
+        </div>
+        <div class="chat-input-bar">
+            <input type="text" id="chatInput" placeholder="Ask about mental health..." autocomplete="off">
+            <button class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Form styles (inline for predict section) */
+.form-group {
+    display: flex; flex-direction: column; gap: 6px;
+}
+.form-group span {
+    font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.form-group input, .form-group select {
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: var(--radius-sm);
+    padding: 10px 14px; color: var(--text-primary); font-size: 14px; font-family: inherit; outline: none;
+    transition: border-color var(--transition-fast);
+}
+.form-group input:focus, .form-group select:focus { border-color: rgba(6,182,212,0.4); }
+.form-group select { cursor: pointer; }
+.form-group select option { background: var(--bg-secondary); }
+.predict-btn {
+    padding: 14px; border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;
+    font-size: 15px; font-weight: 600; border: none; cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.predict-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(6,182,212,0.3); }
+
+/* Risk result styles */
+.risk-gauge { text-align: center; margin: 20px 0; }
+.risk-score-big { font-size: 64px; font-weight: 800; letter-spacing: -3px; }
+.risk-level-tag { display: inline-block; padding: 6px 20px; border-radius: 99px; font-size: 13px; font-weight: 700; text-transform: uppercase; margin: 10px 0; }
+.risk-level-tag.low { background: var(--accent-glow); color: var(--accent); }
+.risk-level-tag.moderate { background: rgba(245,158,11,0.15); color: var(--warning); }
+.risk-level-tag.high { background: var(--danger-glow); color: var(--danger); }
+
+.driver-list { margin: 16px 0; }
+.driver-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.driver-bar { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+.driver-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.8s ease; }
+.driver-label { font-size: 12px; color: var(--text-secondary); min-width: 120px; }
+.driver-pct { font-size: 12px; font-weight: 600; color: var(--text-primary); min-width: 36px; text-align: right; }
+
+.suggestion-list { margin-top: 16px; }
+.suggestion-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-glass); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item i { color: var(--accent); margin-top: 3px; }
+</style>
+
+<script src="/frontend/script.js"></script>
+</body>
+</html>

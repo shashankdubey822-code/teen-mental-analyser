@@ -1,0 +1,21 @@
+[
+  "age",
+  "gender",
+  "daily_social_media_hours",
+  "platform_usage",
+  "sleep_hours",
+  "screen_time_before_sleep",
+  "academic_performance",
+  "physical_activity",
+  "social_interaction_level",
+  "stress_level",
+  "anxiety_level",
+  "addiction_level",
+  "sleep_deficit",
+  "digital_overload",
+  "night_risk",
+  "mental_pressure",
+  "isolation_score",
+  "addiction_impact",
+  "lifestyle_imbalance"
+]
