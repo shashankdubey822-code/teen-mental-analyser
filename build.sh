@@ -6,10 +6,10 @@ echo "==> Installing isolated Python 3.11.8 environment..."
 
 # Download and extract Python 3.11.8 (Linux x86_64) from official python-build-standalone
 curl -L -o python.tar.gz "https://github.com/indygreg/python-build-standalone/releases/download/20240224/cpython-3.11.8+20240224-x86_64-unknown-linux-gnu-install_only.tar.gz"
-tar -xzf python.tar.gz -C /opt/
+tar -xzf python.tar.gz -C .
 rm python.tar.gz
 
-export PATH="/opt/python/bin:$PATH"
+export PATH="$(pwd)/python/bin:$PATH"
 export PYTHON_VERSION="3.11.8"
 
 echo "==> Python Version verification:"

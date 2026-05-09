@@ -3,7 +3,7 @@ services:
     name: teen-mental-analyser
     runtime: python
     buildCommand: "bash build.sh"
-    startCommand: "export PATH=\"/opt/python/bin:$PATH\" && python -m uvicorn api_server:app --host 0.0.0.0 --port $PORT"
+    startCommand: "export PATH=\"/opt/render/project/src/python/bin:$PATH\" && python -m uvicorn api_server:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: OPENROUTER_API_KEY
         sync: false
